@@ -7,19 +7,19 @@ INSERT INTO Login (username, password, role) VALUES
 ('admin.johnson', 'SecurePass123!', 'Admin'),
 ('admin.smith', 'Admin@456', 'Admin'),
 ('admin.williams', 'FlightCtrl789', 'Admin'),
-('admin.brown', 'SkyAdmin!2023', 'Admin'),
+('admin.brown', 'SkyAdmin!2025', 'Admin'),
 ('admin.davis', 'Aviation@123', 'Admin'),
 
 -- Passengers (45)
 ('passenger.miller', 'Traveler1!', 'Passenger'),
-('passenger.wilson', 'FlyHigh2023', 'Passenger'),
+('passenger.wilson', 'FlyHigh2025', 'Passenger'),
 ('passenger.moore', 'JetSet99', 'Passenger'),
 ('passenger.taylor', 'Wanderlust#1', 'Passenger'),
 ('passenger.anderson', 'GlobeTrotter22', 'Passenger'),
 ('passenger.thomas', 'AirTravel!45', 'Passenger'),
 ('passenger.jackson', 'CloudSurfer67', 'Passenger'),
 ('passenger.white', 'FrequentFlyer8', 'Passenger'),
-('passenger.harris', 'SkyBound2023', 'Passenger'),
+('passenger.harris', 'SkyBound2025', 'Passenger'),
 ('passenger.martin', 'TravelBug#9', 'Passenger'),
 ('passenger.garcia', 'FlyAway10', 'Passenger'),
 ('passenger.martinez', 'JetLag11!', 'Passenger'),
@@ -101,40 +101,40 @@ INSERT INTO Passenger (FullName, Email, PhoneNumber, DateOfBirth, Address, Login
 -- Insert realistic flights (30 flights over 3 months)
 INSERT INTO Flight (DepartureTime, FlightNumber, Distance, Origin, SeatsAvailable, Destination, ArrivalTime, AdminId) VALUES
 -- Domestic flights
-('2023-06-01 06:00:00', 'AA100', 2475, 'New York (JFK)', 180, 'Los Angeles (LAX)', '2023-06-01 09:30:00', 1),
-('2023-06-01 07:30:00', 'DL200', 1190, 'Atlanta (ATL)', 160, 'Chicago (ORD)', '2023-06-01 09:00:00', 2),
-('2023-06-01 08:15:00', 'UA300', 1745, 'San Francisco (SFO)', 150, 'Denver (DEN)', '2023-06-01 11:30:00', 3),
-('2023-06-01 09:45:00', 'WN400', 1175, 'Dallas (DFW)', 140, 'Las Vegas (LAS)', '2023-06-01 11:45:00', 1),
-('2023-06-01 11:00:00', 'B6500', 650, 'Boston (BOS)', 120, 'Washington (DCA)', '2023-06-01 12:30:00', 2),
-('2023-06-01 13:30:00', 'AS600', 2675, 'Seattle (SEA)', 110, 'Miami (MIA)', '2023-06-01 21:45:00', 3),
-('2023-06-01 15:00:00', 'NK700', 950, 'Orlando (MCO)', 100, 'New York (LGA)', '2023-06-01 17:30:00', 1),
-('2023-06-01 16:45:00', 'F9800', 800, 'Phoenix (PHX)', 90, 'Houston (IAH)', '2023-06-01 19:15:00', 2),
-('2023-06-01 18:30:00', 'HA900', 2550, 'Honolulu (HNL)', 80, 'San Francisco (SFO)', '2023-06-01 23:00:00', 3),
-('2023-06-01 20:00:00', 'VX1000', 300, 'Los Angeles (LAX)', 70, 'San Diego (SAN)', '2023-06-01 21:00:00', 1),
+('2025-06-01 06:00:00', 'AA100', 2475, 'New York (JFK)', 180, 'Los Angeles (LAX)', '2025-06-01 09:30:00', 1),
+('2025-06-01 07:30:00', 'DL200', 1190, 'Atlanta (ATL)', 160, 'Chicago (ORD)', '2025-06-01 09:00:00', 2),
+('2025-06-01 08:15:00', 'UA300', 1745, 'San Francisco (SFO)', 150, 'Denver (DEN)', '2025-06-01 11:30:00', 3),
+('2025-06-01 09:45:00', 'WN400', 1175, 'Dallas (DFW)', 140, 'Las Vegas (LAS)', '2025-06-01 11:45:00', 1),
+('2025-06-01 11:00:00', 'B6500', 650, 'Boston (BOS)', 120, 'Washington (DCA)', '2025-06-01 12:30:00', 2),
+('2025-06-01 13:30:00', 'AS600', 2675, 'Seattle (SEA)', 110, 'Miami (MIA)', '2025-06-01 21:45:00', 3),
+('2025-06-01 15:00:00', 'NK700', 950, 'Orlando (MCO)', 100, 'New York (LGA)', '2025-06-01 17:30:00', 1),
+('2025-06-01 16:45:00', 'F9800', 800, 'Phoenix (PHX)', 90, 'Houston (IAH)', '2025-06-01 19:15:00', 2),
+('2025-06-01 18:30:00', 'HA900', 2550, 'Honolulu (HNL)', 80, 'San Francisco (SFO)', '2025-06-01 23:00:00', 3),
+('2025-06-01 20:00:00', 'VX1000', 300, 'Los Angeles (LAX)', 70, 'San Diego (SAN)', '2025-06-01 21:00:00', 1),
 
 -- International flights
-('2023-06-02 08:00:00', 'BA200', 3475, 'New York (JFK)', 200, 'London (LHR)', '2023-06-02 20:00:00', 2),
-('2023-06-02 10:30:00', 'LH300', 4300, 'Chicago (ORD)', 190, 'Frankfurt (FRA)', '2023-06-02 23:30:00', 3),
-('2023-06-02 12:45:00', 'AF400', 3630, 'Los Angeles (LAX)', 180, 'Paris (CDG)', '2023-06-03 06:15:00', 1),
-('2023-06-02 15:00:00', 'JL500', 5475, 'San Francisco (SFO)', 170, 'Tokyo (NRT)', '2023-06-03 09:00:00', 2),
-('2023-06-02 17:30:00', 'EK600', 7300, 'Dallas (DFW)', 160, 'Dubai (DXB)', '2023-06-03 15:30:00', 3),
-('2023-06-02 19:45:00', 'SQ700', 9530, 'New York (JFK)', 150, 'Singapore (SIN)', '2023-06-03 23:45:00', 1),
-('2023-06-02 21:00:00', 'QF800', 9930, 'Los Angeles (LAX)', 140, 'Sydney (SYD)', '2023-06-04 06:00:00', 2),
-('2023-06-03 07:00:00', 'CX900', 8075, 'Vancouver (YVR)', 130, 'Hong Kong (HKG)', '2023-06-04 10:00:00', 3),
-('2023-06-03 09:15:00', 'EY1000', 6850, 'Chicago (ORD)', 120, 'Abu Dhabi (AUH)', '2023-06-04 00:15:00', 1),
-('2023-06-03 11:30:00', 'TK1100', 5700, 'Miami (MIA)', 110, 'Istanbul (IST)', '2023-06-04 00:30:00', 2),
+('2025-06-02 08:00:00', 'BA200', 3475, 'New York (JFK)', 200, 'London (LHR)', '2025-06-02 20:00:00', 2),
+('2025-06-02 10:30:00', 'LH300', 4300, 'Chicago (ORD)', 190, 'Frankfurt (FRA)', '2025-06-02 23:30:00', 3),
+('2025-06-02 12:45:00', 'AF400', 3630, 'Los Angeles (LAX)', 180, 'Paris (CDG)', '2025-06-03 06:15:00', 1),
+('2025-06-02 15:00:00', 'JL500', 5475, 'San Francisco (SFO)', 170, 'Tokyo (NRT)', '2025-06-03 09:00:00', 2),
+('2025-06-02 17:30:00', 'EK600', 7300, 'Dallas (DFW)', 160, 'Dubai (DXB)', '2025-06-03 15:30:00', 3),
+('2025-06-02 19:45:00', 'SQ700', 9530, 'New York (JFK)', 150, 'Singapore (SIN)', '2025-06-03 23:45:00', 1),
+('2025-06-02 21:00:00', 'QF800', 9930, 'Los Angeles (LAX)', 140, 'Sydney (SYD)', '2025-06-04 06:00:00', 2),
+('2025-06-03 07:00:00', 'CX900', 8075, 'Vancouver (YVR)', 130, 'Hong Kong (HKG)', '2025-06-04 10:00:00', 3),
+('2025-06-03 09:15:00', 'EY1000', 6850, 'Chicago (ORD)', 120, 'Abu Dhabi (AUH)', '2025-06-04 00:15:00', 1),
+('2025-06-03 11:30:00', 'TK1100', 5700, 'Miami (MIA)', 110, 'Istanbul (IST)', '2025-06-04 00:30:00', 2),
 
 -- Additional flights on different dates
-('2023-06-10 06:30:00', 'AA110', 2475, 'Los Angeles (LAX)', 100, 'New York (JFK)', '2023-06-10 14:00:00', 3),
-('2023-06-15 12:00:00', 'DL210', 1190, 'Chicago (ORD)', 90, 'Atlanta (ATL)', '2023-06-15 14:30:00', 1),
-('2023-06-20 18:45:00', 'UA310', 1745, 'Denver (DEN)', 80, 'San Francisco (SFO)', '2023-06-20 21:15:00', 2),
-('2023-06-25 14:15:00', 'WN410', 1175, 'Las Vegas (LAS)', 70, 'Dallas (DFW)', '2023-06-25 17:30:00', 3),
-('2023-07-01 07:45:00', 'B6510', 650, 'Washington (DCA)', 60, 'Boston (BOS)', '2023-07-01 09:15:00', 1),
-('2023-07-05 21:30:00', 'AS610', 2675, 'Miami (MIA)', 50, 'Seattle (SEA)', '2023-07-06 05:45:00', 2),
-('2023-07-10 16:00:00', 'NK710', 950, 'New York (LGA)', 40, 'Orlando (MCO)', '2023-07-10 18:30:00', 3),
-('2023-07-15 10:15:00', 'F9810', 800, 'Houston (IAH)', 30, 'Phoenix (PHX)', '2023-07-15 12:45:00', 1),
-('2023-07-20 13:45:00', 'HA910', 2550, 'San Francisco (SFO)', 20, 'Honolulu (HNL)', '2023-07-20 18:15:00', 2),
-('2023-07-25 19:30:00', 'VX1010', 300, 'San Diego (SAN)', 10, 'Los Angeles (LAX)', '2023-07-25 20:30:00', 3);
+('2025-06-10 06:30:00', 'AA110', 2475, 'Los Angeles (LAX)', 100, 'New York (JFK)', '2025-06-10 14:00:00', 3),
+('2025-06-15 12:00:00', 'DL210', 1190, 'Chicago (ORD)', 90, 'Atlanta (ATL)', '2025-06-15 14:30:00', 1),
+('2025-06-20 18:45:00', 'UA310', 1745, 'Denver (DEN)', 80, 'San Francisco (SFO)', '2025-06-20 21:15:00', 2),
+('2025-06-25 14:15:00', 'WN410', 1175, 'Las Vegas (LAS)', 70, 'Dallas (DFW)', '2025-06-25 17:30:00', 3),
+('2025-07-01 07:45:00', 'B6510', 650, 'Washington (DCA)', 60, 'Boston (BOS)', '2025-07-01 09:15:00', 1),
+('2025-07-05 21:30:00', 'AS610', 2675, 'Miami (MIA)', 50, 'Seattle (SEA)', '2025-07-06 05:45:00', 2),
+('2025-07-10 16:00:00', 'NK710', 950, 'New York (LGA)', 40, 'Orlando (MCO)', '2025-07-10 18:30:00', 3),
+('2025-07-15 10:15:00', 'F9810', 800, 'Houston (IAH)', 30, 'Phoenix (PHX)', '2025-07-15 12:45:00', 1),
+('2025-07-20 13:45:00', 'HA910', 2550, 'San Francisco (SFO)', 20, 'Honolulu (HNL)', '2025-07-20 18:15:00', 2),
+('2025-07-25 19:30:00', 'VX1010', 300, 'San Diego (SAN)', 10, 'Los Angeles (LAX)', '2025-07-25 20:30:00', 3);
 
 -- Insert realistic class configurations for each flight
 INSERT INTO FlightClass (FlightId, ClassType, SeatsAvailable) VALUES
@@ -242,12 +242,12 @@ INSERT INTO Payment (Amount, Status, PaymentMethod, PassengerId, TicketNumber) V
 -- Insert realistic passenger-flight inquiries (200 records)
 INSERT INTO Passenger_Flight (PassengerId, FlightId, InquiryDate) VALUES
 -- Passenger 1 looked at several flights
-(1, 1, '2023-05-01 09:15:00'),
-(1, 2, '2023-05-02 10:30:00'),
-(1, 11, '2023-05-03 11:45:00'),
-(1, 30, '2023-05-04 14:00:00'),
+(1, 1, '2025-05-01 09:15:00'),
+(1, 2, '2025-05-02 10:30:00'),
+(1, 11, '2025-05-03 11:45:00'),
+(1, 30, '2025-05-04 14:00:00'),
 
 -- Passenger 2 looked at flights
-(2, 1, '2023-05-05 08:30:00'),
-(2, 3, '2023-05-06 09:45:00'),
-(2, 12, '2023-05-07 10:15:00');
+(2, 1, '2025-05-05 08:30:00'),
+(2, 3, '2025-05-06 09:45:00'),
+(2, 12, '2025-05-07 10:15:00');

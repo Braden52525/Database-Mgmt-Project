@@ -1,41 +1,43 @@
--- Existing function: book_flight
+-- Updated function: book_flight
 CREATE OR REPLACE FUNCTION book_flight(
     p_seatNumber VARCHAR,
     p_flightId INT,
     p_passengerId INT,
-    p_classId INT
+    p_classType VARCHAR
 ) RETURNS INTEGER AS $$
 DECLARE
     v_seatsAvailable INT;
     v_ticketNumber INTEGER;
 BEGIN
-    -- Lock the flight row to ensure an accurate seat count
+    -- Lock the FlightClass row to ensure an accurate seat count for the selected class
     SELECT SeatsAvailable 
       INTO v_seatsAvailable 
-      FROM Flight 
+      FROM FlightClass 
      WHERE FlightId = p_flightId
+       AND ClassType = p_classType
      FOR UPDATE;
     
     IF v_seatsAvailable <= 0 THEN
-        RAISE EXCEPTION 'No seats available for flight %', p_flightId;
+        RAISE EXCEPTION 'No seats available for flight % in class %', p_flightId, p_classType;
     END IF;
     
-    -- Insert the new ticket and return its TicketNumber
-    INSERT INTO Ticket (SeatNumber, FlightId, PassengerId, ClassId)
-    VALUES (p_seatNumber, p_flightId, p_passengerId, p_classId)
+    -- Insert the new ticket (using ClassType) and return its TicketNumber
+    INSERT INTO Ticket (SeatNumber, FlightId, PassengerId, ClassType)
+    VALUES (p_seatNumber, p_flightId, p_passengerId, p_classType)
     RETURNING TicketNumber INTO v_ticketNumber;
     
-    -- Decrement the number of available seats
-    UPDATE Flight
+    -- Decrement the available seats for that class in the FlightClass table
+    UPDATE FlightClass
        SET SeatsAvailable = SeatsAvailable - 1
-     WHERE FlightId = p_flightId;
+     WHERE FlightId = p_flightId
+       AND ClassType = p_classType;
     
     RETURN v_ticketNumber;
 END;
 $$ LANGUAGE plpgsql;
 
 
--- Existing function: process_payment
+-- Existing function: process_payment (remains unchanged)
 CREATE OR REPLACE FUNCTION process_payment(
     p_amount DECIMAL,
     p_status VARCHAR,
@@ -50,13 +52,13 @@ END;
 $$ LANGUAGE plpgsql;
 
 
--- New Combined Function: book_and_pay_flight
--- This function calls book_flight to insert a ticket and then processes the payment.
+-- Updated Combined Function: book_and_pay_flight
+-- This function calls book_flight to insert a ticket (using classType) and then processes the payment.
 CREATE OR REPLACE FUNCTION book_and_pay_flight(
     p_seatNumber VARCHAR,
     p_flightId INT,
     p_passengerId INT,
-    p_classId INT,
+    p_classType VARCHAR,
     p_amount DECIMAL,
     p_status VARCHAR,
     p_paymentMethod VARCHAR
@@ -65,7 +67,7 @@ DECLARE
     v_ticketNumber INTEGER;
 BEGIN
     -- Book the flight (ticket insertion and seat decrement)
-    v_ticketNumber := book_flight(p_seatNumber, p_flightId, p_passengerId, p_classId);
+    v_ticketNumber := book_flight(p_seatNumber, p_flightId, p_passengerId, p_classType);
     
     -- Process the payment for the ticket
     PERFORM process_payment(p_amount, p_status, p_paymentMethod, p_passengerId, v_ticketNumber);
@@ -78,12 +80,12 @@ END;
 $$ LANGUAGE plpgsql;
 
 
--- New Function: cancel_ticket
+-- Function: cancel_ticket
 -- This function handles ticket cancellation by updating the payment status and deleting the ticket.
 CREATE OR REPLACE FUNCTION cancel_ticket(
     p_ticketNumber INT,
     p_refundAmount DECIMAL,
-    p_changedBy VARCHAR  -- If you want to record who cancelled the ticket
+    p_changedBy VARCHAR  -- Optional: record who cancelled the ticket
 ) RETURNS VOID AS $$
 DECLARE
     v_flightId INT;
@@ -99,11 +101,9 @@ BEGIN
        SET Status = 'Refunded', Amount = p_refundAmount
      WHERE TicketNumber = p_ticketNumber;
 
-    -- Delete the ticket (this will trigger the seat increment trigger)
+    -- Delete the ticket (the trigger on Ticket will update available seats accordingly)
     DELETE FROM Ticket WHERE TicketNumber = p_ticketNumber;
 
-    -- Optionally, if an AuditLog table exists, you could log the cancellation here:
-    -- INSERT INTO AuditLog (TableName, Operation, RecordId, ChangedBy)
-    -- VALUES ('Ticket', 'CANCEL', p_ticketNumber, p_changedBy);
+    -- Optionally, insert an audit record into AuditLog here.
 END;
 $$ LANGUAGE plpgsql;

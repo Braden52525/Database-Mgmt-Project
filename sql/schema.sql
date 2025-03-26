@@ -6,17 +6,6 @@ DROP TABLE IF EXISTS Flight CASCADE;
 DROP TABLE IF EXISTS Passenger;
 DROP TABLE IF EXISTS Admin;
 DROP TABLE IF EXISTS Login;
-DROP TABLE IF EXISTS AuditLog;
-
--- AuditLog table to record key operations on critical tables
-CREATE TABLE AuditLog (
-    AuditId SERIAL PRIMARY KEY,
-    TableName VARCHAR(100) NOT NULL,
-    Operation VARCHAR(50) NOT NULL,
-    RecordId INT,
-    ChangeTimestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    ChangedBy VARCHAR(50)
-);
 
 -- Create the Login table
 CREATE TABLE Login (

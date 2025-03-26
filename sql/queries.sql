@@ -1,4 +1,4 @@
---query is used for login
+-- Query is used for login
 SELECT l.LoginId, l.username, l.role,
        a.AdminId, a.FullName AS AdminName,
        p.PassengerId, p.FullName AS PassengerName
@@ -8,8 +8,7 @@ LEFT JOIN Passenger p ON l.LoginId = p.LoginId
 WHERE l.username = 'sample_user'
   AND l.password = 'sample_password';
 
-
---query retrieves flights leaving from New York to Los Angeles that have available seats and depart after a specified time.
+-- Query retrieves flights leaving from New York to Los Angeles that have available seats and depart after a specified time.
 SELECT 
     FlightId, FlightNumber, Origin, Destination, DepartureTime, ArrivalTime, SeatsAvailable
 FROM 
@@ -20,13 +19,13 @@ WHERE
     AND DepartureTime >= '2025-03-21 00:00:00'
     AND SeatsAvailable > 0;
 
---The transaction ensures both operations (ticket insertion and seat decrement) happen together. 
---You might also want to add logic (or a stored procedure) that checks for available seats before inserting the ticket.
+-- Transaction: Insert a new ticket and decrement available seats.
 BEGIN;
 
--- Step 1: Insert a new ticket (returning the ticket number if needed)
-INSERT INTO Ticket (SeatNumber, FlightId, PassengerId, ClassId)
-VALUES ('12A', 1, 2, 1)
+-- Step 1: Insert a new ticket (returning the ticket number)
+-- Note: We now insert a ClassType (e.g., 'Economy') rather than a ClassId.
+INSERT INTO Ticket (SeatNumber, FlightId, PassengerId, ClassType)
+VALUES ('12A', 1, 2, 'Economy')
 RETURNING TicketNumber;
 
 -- Step 2: Update the flight's available seats
@@ -37,7 +36,7 @@ WHERE FlightId = 1
 
 COMMIT;
 
--- This query uses a common table expression (CTE) to capture the FlightId from the deleted ticket record, then updates the corresponding Flight record.
+-- Transaction: Cancel a ticket (delete ticket and update flight seats).
 BEGIN;
 
 -- Step 1: Delete the ticket and get the associated FlightId
@@ -53,14 +52,11 @@ WHERE FlightId = (SELECT FlightId FROM removed_ticket);
 
 COMMIT;
 
-
---This query logs the payment details for a specific ticket. 
---In your design, each ticket should have one associated payment (hence the unique constraint on TicketNumber in Payment).
+-- Log the payment details for a specific ticket.
 INSERT INTO Payment (Amount, Status, PaymentMethod, PassengerId, TicketNumber)
 VALUES (199.99, 'Completed', 'Credit Card', 5, 123);
 
---This query joins the Ticket, Flight, Class, and Payment tables to show detailed booking information for a given passenger. 
---The LEFT JOIN on Payment ensures that ticket details appear even if payment information is not yet available.
+-- Join Ticket, Flight, FlightClass, and Payment to show detailed booking information for a given passenger.
 SELECT 
     t.TicketNumber,
     t.SeatNumber,
@@ -68,7 +64,7 @@ SELECT
     f.Origin,
     f.Destination,
     t.DateTime,
-    c.ClassType,
+    fc.ClassType,
     p.Status AS PaymentStatus,
     p.Amount
 FROM 
@@ -76,14 +72,13 @@ FROM
 JOIN 
     Flight f ON t.FlightId = f.FlightId
 JOIN 
-    Class c ON t.ClassId = c.ClassId
+    FlightClass fc ON t.FlightId = fc.FlightId AND t.ClassType = fc.ClassType
 LEFT JOIN 
     Payment p ON t.TicketNumber = p.TicketNumber
 WHERE 
     t.PassengerId = 5;
 
-
---This query lists all flights where a particular admin (AdminId = 2) is responsible.
+-- List all flights where a particular admin (AdminId = 2) is responsible.
 SELECT 
     FlightId, FlightNumber, Origin, Destination, DepartureTime, ArrivalTime
 FROM 
@@ -91,16 +86,14 @@ FROM
 WHERE 
     AdminId = 2;
 
-
---This query returns all class records associated with a specific flight.
+-- Return all class records associated with a specific flight (using the FlightClass table).
 SELECT 
-    ClassId, ClassType
+    ClassType, SeatsAvailable
 FROM 
-    Class
+    FlightClass
 WHERE 
     FlightId = 101;
 
-
---This keeps a history of which flights a passenger has viewed or expressed interest in.
+-- Insert a record into the Passenger_Flight junction table to track a passenger's inquiry.
 INSERT INTO Passenger_Flight (PassengerId, FlightId)
 VALUES (5, 101);

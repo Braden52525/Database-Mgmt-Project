@@ -1,10 +1,11 @@
--- Trigger Function for Ticket Deletion:
+-- Updated Trigger Function for Ticket Deletion:
 CREATE OR REPLACE FUNCTION update_seats_on_ticket_delete()
 RETURNS trigger AS $$
 BEGIN
-    UPDATE Flight 
+    UPDATE FlightClass 
        SET SeatsAvailable = SeatsAvailable + 1
-     WHERE FlightId = OLD.FlightId;
+     WHERE FlightId = OLD.FlightId
+       AND ClassType = OLD.ClassType;
     RETURN OLD;
 END;
 $$ LANGUAGE plpgsql;
