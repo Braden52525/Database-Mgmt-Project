@@ -1,4 +1,4 @@
--- Query is used for login
+-- Query#1 is used for login
 SELECT l.LoginId, l.username, l.role,
        a.AdminId, a.FullName AS AdminName,
        p.PassengerId, p.FullName AS PassengerName
@@ -8,7 +8,7 @@ LEFT JOIN Passenger p ON l.LoginId = p.LoginId
 WHERE l.username = 'sample_user'
   AND l.password = 'sample_password';
 
--- Query retrieves flights leaving from New York to Los Angeles that have available seats and depart after a specified time.
+-- Query#2 retrieves flights leaving from New York to Los Angeles that have available seats and depart after a specified time.
 SELECT 
     FlightId, FlightNumber, Origin, Destination, DepartureTime, ArrivalTime, SeatsAvailable
 FROM 
@@ -20,6 +20,7 @@ WHERE
     AND SeatsAvailable > 0;
 
 -- Transaction: Insert a new ticket and decrement available seats.
+--Query#3
 BEGIN;
 
 -- Step 1: Insert a new ticket (returning the ticket number)
@@ -37,6 +38,7 @@ WHERE FlightId = 1
 COMMIT;
 
 -- Transaction: Cancel a ticket (delete ticket and update flight seats).
+--Query #4
 BEGIN;
 
 -- Step 1: Delete the ticket and get the associated FlightId
@@ -53,10 +55,12 @@ WHERE FlightId = (SELECT FlightId FROM removed_ticket);
 COMMIT;
 
 -- Log the payment details for a specific ticket.
+--Query #5
 INSERT INTO Payment (Amount, Status, PaymentMethod, PassengerId, TicketNumber)
 VALUES (199.99, 'Completed', 'Credit Card', 5, 123);
 
 -- Join Ticket, Flight, FlightClass, and Payment to show detailed booking information for a given passenger.
+--Query #6
 SELECT 
     t.TicketNumber,
     t.SeatNumber,
@@ -79,6 +83,7 @@ WHERE
     t.PassengerId = 5;
 
 -- List all flights where a particular admin (AdminId = 2) is responsible.
+--Query #7
 SELECT 
     FlightId, FlightNumber, Origin, Destination, DepartureTime, ArrivalTime
 FROM 
@@ -87,6 +92,7 @@ WHERE
     AdminId = 2;
 
 -- Return all class records associated with a specific flight (using the FlightClass table).
+--Query #8
 SELECT 
     ClassType, SeatsAvailable
 FROM 
@@ -95,5 +101,6 @@ WHERE
     FlightId = 101;
 
 -- Insert a record into the Passenger_Flight junction table to track a passenger's inquiry.
+--Query #9
 INSERT INTO Passenger_Flight (PassengerId, FlightId)
 VALUES (5, 101);
